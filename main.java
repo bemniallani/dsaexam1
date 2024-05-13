@@ -1,35 +1,73 @@
-package question6;
+package question5;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class main {
 
 	public static void main(String[] args) {
-		int[]array={3,7,1,9,4};
 		Scanner scanner=new Scanner(System.in);
-		System.out.println("delete which position: ");
-		int[]position=scanner.nextInt();
-		int[]aaa=deleteelement(array,3);
-		System.out.println(Arrays.toString(aaa));
-		
+		System.out.println("Length: ");
+		int length=scanner.nextInt();
+		System.out.println("array: ");
+		int[]array=new int[length];
+		for(int i=0;i<length;i++) {
+			array[i]=scanner.nextInt();
+		}
+		System.out.println("element: ");
+		int element=scanner.nextInt();
+		mergesort(array);
+		for(int i=0;i<array.length;i++) {
+			System.out.println(array[i]);
+		}
+
 	}
-	public static int[]deleteelement(int array[],int position){
-		int[]newarr=new int [array.length+1];
-		if(position!>=array.length,position!>0) {
-			for(int i=0;i<position;i++) {
-				newarr[i]=array[i];
+
+	private static void mergesort(int[] array) {
+		if(array.length<=1)return;
+		int middle=array.length/2;
+		int[]leftarray=new int[middle];
+		int []rightarray=new int[array.length-middle];
+		for(int i=0;i<array.length;i++) {
+			if(i<middle) {
+				leftarray[i]=array[i];
 			}
-			for(int i=position;i<array.length;i++) {
-				newarr[i]=array[i+1];
+			else {
+				rightarray[i]=array[i];
+				i++;
 			}
-			return newarr;
+			
 		}
-		else {
-			System.out.println("invalid index");
-		}
-		
+		mergesort(leftarray);
+		mergesort(rightarray);
+		merge(leftarray,rightarray,array);
 		
 	}
 
-}
+	private static void merge(int[] leftarray, int[] rightarray, int[] array) {
+		int leftsize=array.length/2;
+		int rightsize=array.length-leftsize;
+		int i=0,l=0,r=0;
+		while (l<leftsize&&r<rightsize) {
+			if(leftarray[l]<rightarray[r]) {
+				array[i]=leftarray[l];
+				i++;
+				l++;
+			}
+			else {
+				array[i]=rightarray[r];
+				i++;
+				r++;
+			}
+		}
+		while(l<leftsize) {
+			array[i]=leftarray[l];
+			i++;
+			l++;
+		}
+		while(r<rightsize) {
+			array[i]=rightarray[l];
+			i++;
+			r++;
+		}
+	}
+}		
